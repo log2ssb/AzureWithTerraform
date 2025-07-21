@@ -41,7 +41,7 @@ stages:
             provider: 'azurerm'
             command: 'plan'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
-            commandOptions: '-out=tfplan'
+            commandOptions: '-var "client_secret=$(client_secret) -out=tfplan'
             environmentServiceNameAzureRM: 'AzureResourceManager'
         
         # - script: |
