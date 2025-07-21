@@ -1,0 +1,29 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+
+stages:
+  - stage: Plan
+    displayName: "Terraform Plan and export the infrastructure plan"
+    condition: and(succeeded(), eq(variables.isMain, true))
+    jobs:
+      - job: terraformPlan
+  
+
+  - stage: Apply
+    displayName: "Deploy infrastructure using Terraform"
+    dependsOn: Plan
+    jobs:
+      - job: terraformApply
+          
+  
