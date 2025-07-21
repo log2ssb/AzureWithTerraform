@@ -34,20 +34,22 @@ stages:
             backendAzureRmStorageAccountName: $(storageAccountName)
             backendAzureRmContainerName: $(containerName)
             backendAzureRmKey: 'tf/terraform.tfstate'
+
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
+            commandOptions: '-out=tfplan'
+            environmentServiceNameAzureRM: 'AzureResourceManager'
         
-        - script: |
-            terraform --version
-            cd $(System.DefaultWorkingDirectory)/terraform_scripts
-            terraform plan -out=tfplan
-          displayName: check terraform version
+        # - script: |
+        #     terraform --version
+        #     cd $(System.DefaultWorkingDirectory)/terraform_scripts
+        #     terraform plan -out=tfplan
+        #   displayName: check terraform version
         
-        # - task: TerraformTask@5
-        #   inputs:
-        #     provider: 'azurerm'
-        #     command: 'plan'
-        #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
-        #     commandOptions: '-out=tfplan'
-        #     environmentServiceNameAzureRM: 'AzureResourceManager'
+
 
   # - stage: Apply
   #   displayName: "Deploy infrastructure using Terraform"
