@@ -1,4 +1,20 @@
 # Variables for Terraform state backend
+variable "tenant_id" {
+  type = string
+  default = "14048a0c-961f-4ade-8b51-34d996953e8a"
+}
+variable "subscription_id" {
+  type = string
+  default = "67b5d626-6793-4865-84b8-57330f18fb6c"
+}
+variable "client_id" {
+  type = string
+  default = "d90001fa-76a7-44d0-8566-8b3589f5c039"
+}
+variable "client_secret" {
+  type = string
+}
+
 variable "tfstate_resource_group_name" {
   description = "Name of the resource group for Terraform state"
   type        = string
