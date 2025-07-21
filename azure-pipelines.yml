@@ -15,7 +15,7 @@ variables:
 
 stages:
   - stage: Plan
-    displayName: "Terraform Plan and export the infrastructure plan"
+    displayName: "Terraform Plan"
     condition: and(succeeded(), eq(variables.isMain, true))
     jobs:
       - job: terraformPlan
@@ -48,7 +48,7 @@ stages:
   - stage: Apply
     displayName: "Deploy infrastructure using Terraform"
     dependsOn: Plan
-    condition: eq(variables['Build.Reason'], 'Manual')
+    # condition: eq(variables['Build.Reason'], 'Manual')
     jobs:
       - deployment: terraformApply
         environment: terraform-apply
@@ -83,7 +83,7 @@ stages:
   - stage: Destroy
     displayName: Destroy the infrastructure
     dependsOn: Apply
-    condition: eq(variables['Build.Reason'], 'Manual')  # Optional: limit to manual triggers
+    # condition: eq(variables['Build.Reason'], 'Manual')  # Optional: limit to manual triggers
     jobs:
       - deployment: terraformDestroy
         environment: terraform-destroy
