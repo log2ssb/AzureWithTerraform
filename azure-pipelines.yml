@@ -24,19 +24,20 @@ stages:
           inputs:
             terraformVersion: '1.5.7'
         
-        # - task: TerraformTask@5
-        #   displayName: initialize the terraform
-        #   inputs:
-        #     provider: 'azurerm'
-        #     command: 'init'
-        #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
-        #     backendServiceArm: 'AzureResourceManager'
-        #     backendAzureRmResourceGroupName: '$(rg-name)'
-        #     backendAzureRmStorageAccountName: '$(storageAccountName)'
-        #     backendAzureRmContainerName: '$(containerName)'
-        #     backendAzureRmKey: 'tf/terraform.tfstate'
+        - task: TerraformTask@5
+          displayName: initialize the terraform
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
+            backendServiceArm: 'AzureResourceManager'
+            backendAzureRmResourceGroupName: '$(rg-name)'
+            backendAzureRmStorageAccountName: '$(storageAccountName)'
+            backendAzureRmContainerName: '$(containerName)'
+            backendAzureRmKey: 'tf/terraform.tfstate'
 
         - task: TerraformTask@5
+          displayName: Terraform Plan
           inputs:
             provider: 'azurerm'
             command: 'plan'
@@ -61,17 +62,17 @@ stages:
                  inputs:
                    terraformVersion: '1.5.7'
 
-               - task: TerraformTask@5
-                 displayName: Initialize the terraform
-                 inputs:
-                   provider: 'azurerm'
-                   command: 'init'
-                   workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
-                   backendServiceArm: 'AzureResourceManager'
-                   backendAzureRmResourceGroupName: '$(rg-name)'
-                   backendAzureRmStorageAccountName: '$(storageAccountName)'
-                   backendAzureRmContainerName: '$(containerName)'
-                   backendAzureRmKey: 'tf/terraform.tfstate'
+              #  - task: TerraformTask@5
+              #    displayName: Initialize the terraform
+              #    inputs:
+              #      provider: 'azurerm'
+              #      command: 'init'
+              #      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
+              #      backendServiceArm: 'AzureResourceManager'
+              #      backendAzureRmResourceGroupName: '$(rg-name)'
+              #      backendAzureRmStorageAccountName: '$(storageAccountName)'
+              #      backendAzureRmContainerName: '$(containerName)'
+              #      backendAzureRmKey: 'tf/terraform.tfstate'
               
                - task: TerraformTask@5
                  displayName: Terraform Apply
