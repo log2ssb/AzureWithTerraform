@@ -18,12 +18,28 @@ stages:
     condition: and(succeeded(), eq(variables.isMain, true))
     jobs:
       - job: terraformPlan
-  
+        steps:
+        - task: TerraformInstaller@1
+          inputs:
+            terraformVersion: 'latest'
+        
+        - task: TerraformTask@5
+          displayName: initialize the terraform
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            backendServiceArm: 'AzureResourceManager'
+            backendAzureRmResourceGroupName: $(rg-name)
+            backendAzureRmStorageAccountName: $(storageAccountName)
+            backendAzureRmContainerName: $(containerName)
+            backendAzureRmKey: 'tf/terraform.tfstate'
+        
+        - script: |
+            terraform --version
+          displayName: check terraform version
 
-  - stage: Apply
-    displayName: "Deploy infrastructure using Terraform"
-    dependsOn: Plan
-    jobs:
-      - job: terraformApply
-          
-  
+  # - stage: Apply
+  #   displayName: "Deploy infrastructure using Terraform"
+  #   dependsOn: Plan
+  #   jobs:
+  #     - job: terraformApply
