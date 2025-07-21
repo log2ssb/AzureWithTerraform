@@ -43,17 +43,72 @@ stages:
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
             commandOptions: '-var "client_secret=$(client_secret)" -out=tfplan'
             environmentServiceNameAzureRM: 'AzureResourceManager'
-        
-        # - script: |
-        #     terraform --version
-        #     cd $(System.DefaultWorkingDirectory)/terraform_scripts
-        #     terraform plan -out=tfplan
-        #   displayName: check terraform version
-        
 
 
-  # - stage: Apply
-  #   displayName: "Deploy infrastructure using Terraform"
-  #   dependsOn: Plan
-  #   jobs:
-  #     - job: terraformApply
+  - stage: Apply
+    displayName: "Deploy infrastructure using Terraform"
+    dependsOn: Plan
+    condition: eq(variables['Build.Reason'], 'Manual')
+    jobs:
+      - deployment: terraformApply
+        environment: terraform-apply
+        strategy:
+         runOnce:
+           deploy:
+             steps:
+               - task: TerraformInstaller@1
+                 inputs:
+                   terraformVersion: 'latest'
+
+               - task: TerraformTask@5
+                 displayName: initialize the terraform
+                 inputs:
+                   provider: 'azurerm'
+                   command: 'init'
+                   workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
+                   backendServiceArm: 'AzureResourceManager'
+                   backendAzureRmResourceGroupName: '$(rg-name)'
+                   backendAzureRmStorageAccountName: '$(storageAccountName)'
+                   backendAzureRmContainerName: '$(containerName)'
+                   backendAzureRmKey: 'tf/terraform.tfstate'
+              
+               - task: TerraformTask@5
+                 inputs:
+                   provider: 'azurerm'
+                   command: 'apply'
+                   workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
+                   commandOptions: '-var "client_secret=$(client_secret)" --auto-approve tfplan'
+                   environmentServiceNameAzureRM: 'AzureResourceManager'
+
+  - stage: Destroy
+    displayName: Destroy the infrastructure
+    dependsOn: Apply
+    condition: eq(variables['Build.Reason'], 'Manual')  # Optional: limit to manual triggers
+    jobs:
+      - deployment: terraformDestroy
+        environment: terraform-destroy
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: TerraformInstaller@1
+                  inputs:
+                    terraformVersion: 'latest'
+                - task: TerraformTask@5
+                  inputs:
+                    provider: 'azurerm'
+                    command: 'init'
+                    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
+                    backendServiceArm: 'AzureResourceManager'
+                    backendAzureRmResourceGroupName: $(rg-name)
+                    backendAzureRmStorageAccountName: '$(storageAccountName)'
+                    backendAzureRmContainerName: '$(containerName)'
+                    backendAzureRmKey: 'tf/terraform.tfstate'
+                  
+                - task: TerraformTask@5
+                  inputs:
+                    provider: 'azurerm'
+                    command: 'destroy'
+                    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
+                    commandOptions: '-var "client_secret=$(client_secret)" -auto-approve'
+                    environmentServiceNameAzureRM: 'AzureResourceManager'
