@@ -29,10 +29,11 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
             backendServiceArm: 'AzureResourceManager'
-            backendAzureRmResourceGroupName: $(rg-name)
-            backendAzureRmStorageAccountName: $(storageAccountName)
-            backendAzureRmContainerName: $(containerName)
+            backendAzureRmResourceGroupName: '$(rg-name)'
+            backendAzureRmStorageAccountName: '$(storageAccountName)'
+            backendAzureRmContainerName: '$(containerName)'
             backendAzureRmKey: 'tf/terraform.tfstate'
 
         - task: TerraformTask@5
