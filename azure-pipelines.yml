@@ -37,6 +37,7 @@ stages:
         
         - script: |
             terraform --version
+            cd $(System.DefaultWorkingDirectory)/terraform_scripts
             terraform plan -out=tfplan
           displayName: check terraform version
         
