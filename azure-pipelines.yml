@@ -22,7 +22,7 @@ stages:
         steps:
         - task: TerraformInstaller@1
           inputs:
-            terraformVersion: 'latest'
+            terraformVersion: '1.5.7'
         
         - task: TerraformTask@5
           displayName: initialize the terraform
@@ -57,11 +57,12 @@ stages:
            deploy:
              steps:
                - task: TerraformInstaller@1
+                 displayName: Install latest terraform
                  inputs:
-                   terraformVersion: 'latest'
+                   terraformVersion: '1.5.7'
 
                - task: TerraformTask@5
-                 displayName: initialize the terraform
+                 displayName: Initialize the terraform
                  inputs:
                    provider: 'azurerm'
                    command: 'init'
@@ -73,6 +74,7 @@ stages:
                    backendAzureRmKey: 'tf/terraform.tfstate'
               
                - task: TerraformTask@5
+                 displayName: Terraform Apply
                  inputs:
                    provider: 'azurerm'
                    command: 'apply'
@@ -93,7 +95,7 @@ stages:
               steps:
                 - task: TerraformInstaller@1
                   inputs:
-                    terraformVersion: 'latest'
+                    terraformVersion: '1.5.7'
                 - task: TerraformTask@5
                   inputs:
                     provider: 'azurerm'
@@ -106,6 +108,7 @@ stages:
                     backendAzureRmKey: 'tf/terraform.tfstate'
                   
                 - task: TerraformTask@5
+                  displayName: Terraform Destroy
                   inputs:
                     provider: 'azurerm'
                     command: 'destroy'
