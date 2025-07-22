@@ -22,7 +22,7 @@ stages:
         steps:
         - task: TerraformInstaller@1
           inputs:
-            terraformVersion: '1.5.7'
+            terraformVersion: '1.12.2'
         
         - task: TerraformTask@5
           displayName: initialize the terraform
@@ -45,6 +45,12 @@ stages:
             commandOptions: '-var "client_secret=$(client_secret)" -out=tfplan'
             environmentServiceNameAzureRM: 'AzureResourceManager'
 
+  # - stage: Apply1
+  #   displayName: "Deploy Infrastructure"
+  #   dependsOn: Plan
+  #   jobs:
+  #     - job: terraformApply
+        
 
   - stage: Apply
     displayName: "Deploy infrastructure using Terraform"
@@ -60,7 +66,10 @@ stages:
                - task: TerraformInstaller@1
                  displayName: Install latest terraform
                  inputs:
-                   terraformVersion: '1.5.7'
+                   terraformVersion: '1.12.2'
+              
+               - script: terraform -version
+                 displayName: "Check Terraform Version"
 
               #  - task: TerraformTask@5
               #    displayName: Initialize the terraform
@@ -74,14 +83,14 @@ stages:
               #      backendAzureRmContainerName: '$(containerName)'
               #      backendAzureRmKey: 'tf/terraform.tfstate'
               
-               - task: TerraformTask@5
-                 displayName: Terraform Apply
-                 inputs:
-                   provider: 'azurerm'
-                   command: 'apply'
-                   workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
-                   commandOptions: '-var "client_secret=$(client_secret)" --auto-approve tfplan'
-                   environmentServiceNameAzureRM: 'AzureResourceManager'
+              #  - task: TerraformTask@5
+              #    displayName: Terraform Apply
+              #    inputs:
+              #      provider: 'azurerm'
+              #      command: 'apply'
+              #      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
+              #      commandOptions: '-var "client_secret=$(client_secret)" --auto-approve tfplan'
+              #      environmentServiceNameAzureRM: 'AzureResourceManager'
 
   - stage: Destroy
     displayName: Destroy the infrastructure
@@ -96,7 +105,7 @@ stages:
               steps:
                 - task: TerraformInstaller@1
                   inputs:
-                    terraformVersion: '1.5.7'
+                    terraformVersion: '1.12.2'
                 - task: TerraformTask@5
                   inputs:
                     provider: 'azurerm'
