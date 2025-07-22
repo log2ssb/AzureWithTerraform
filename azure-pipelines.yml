@@ -81,7 +81,7 @@ stages:
                    backendAzureRmResourceGroupName: '$(rg-name)'
                    backendAzureRmStorageAccountName: '$(storageAccountName)'
                    backendAzureRmContainerName: '$(containerName)'
-                   backendAzureRmKey: 'tf/terraform.tfstate'
+                   backendAzureRmKey: 'tf/state.tfstate'
               
               #  - task: TerraformTask@5
               #    displayName: Terraform Apply
