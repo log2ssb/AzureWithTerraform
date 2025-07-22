@@ -102,6 +102,7 @@ stages:
 
                - script: |
                    terraform --version
+                   cd $(System.DefaultWorkingDirectory)/terraform_scripts
                    terraform init -backend-config="storage_account_name=$(storageAccountName)" -backend-config="container_name=$(containerName)" -backend-config="key=$(key)"
                  displayName: Terraform Init
               #  - task: TerraformTask@5
