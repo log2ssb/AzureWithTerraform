@@ -102,9 +102,22 @@ stages:
 
                - script: |
                    terraform --version
-                   cd $(System.DefaultWorkingDirectory)/terraform_scripts
+                   cd $(System.DefaultWorkingDirectory)/terraform_scripts/
+                   ls -lrth
                    terraform init -backend-config="storage_account_name=$(storageAccountName)" -backend-config="container_name=$(containerName)" -backend-config="key=$(key)"
                  displayName: Terraform Init
+
+               - script: |
+                   cd $(System.DefaultWorkingDirectory)/terraform_scripts/
+                   terraform plan -out=tfplan
+                 displayName: Terraform Plan
+               
+               - script: |
+                   cd $(System.DefaultWorkingDirectory)/terraform_scripts/
+                   terraform apply -auto-approve tfplan
+                 displayName: Terraform apply
+                 condition: succeeded()
+                 
               #  - task: TerraformTask@5
               #    displayName: Initialize the terraform
               #    inputs:
