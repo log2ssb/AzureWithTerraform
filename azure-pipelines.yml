@@ -19,6 +19,7 @@ stages:
     condition: and(succeeded(), eq(variables.isMain, true))
     jobs:
       - job: terraformPlan
+        displayName: Terraform Plan
         steps:
         - task: TerraformInstaller@1
           inputs:
@@ -93,6 +94,7 @@ stages:
     # condition: eq(variables['Build.Reason'], 'Manual')
     jobs:
       - deployment: terraformApply
+        displayName: Terraform Apply
         environment: terraform-apply
         strategy:
          runOnce:
