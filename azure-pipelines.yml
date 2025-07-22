@@ -111,12 +111,12 @@ stages:
 
               #  - script: |
               #      cd $(System.DefaultWorkingDirectory)/terraform_scripts/
-              #      terraform plan -var "client_secret=$(client_secret) -out=tfplan
+              #      terraform plan -var "client_secret=$(client_secret)" -out=tfplan
               #    displayName: Terraform Plan
                
                - script: |
                    cd $(System.DefaultWorkingDirectory)/terraform_scripts/
-                   terraform apply -var "client_secret=$(client_secret) -auto-approve tfplan
+                   terraform apply -var "client_secret=$(client_secret)" -auto-approve tfplan
                  displayName: Terraform apply
                  condition: succeeded()
                  
@@ -166,7 +166,7 @@ stages:
 
                 - script: |
                    cd $(System.DefaultWorkingDirectory)/terraform_scripts/
-                   terraform destroy -var "client_secret=$(client_secret) -auto-approve
+                   terraform destroy -var "client_secret=$(client_secret)" -auto-approve
                   displayName: Terraform destroy
                   condition: succeeded()
 
