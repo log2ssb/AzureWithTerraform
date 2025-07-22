@@ -71,17 +71,17 @@ stages:
                - script: terraform -version
                  displayName: "Check Terraform Version"
 
-              #  - task: TerraformTask@5
-              #    displayName: Initialize the terraform
-              #    inputs:
-              #      provider: 'azurerm'
-              #      command: 'init'
-              #      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
-              #      backendServiceArm: 'AzureResourceManager'
-              #      backendAzureRmResourceGroupName: '$(rg-name)'
-              #      backendAzureRmStorageAccountName: '$(storageAccountName)'
-              #      backendAzureRmContainerName: '$(containerName)'
-              #      backendAzureRmKey: 'tf/terraform.tfstate'
+               - task: TerraformTask@5
+                 displayName: Initialize the terraform
+                 inputs:
+                   provider: 'azurerm'
+                   command: 'init'
+                   workingDirectory: '$(System.DefaultWorkingDirectory)/terraform_scripts'
+                   backendServiceArm: 'AzureResourceManager'
+                   backendAzureRmResourceGroupName: '$(rg-name)'
+                   backendAzureRmStorageAccountName: '$(storageAccountName)'
+                   backendAzureRmContainerName: '$(containerName)'
+                   backendAzureRmKey: 'tf/terraform.tfstate'
               
               #  - task: TerraformTask@5
               #    displayName: Terraform Apply
