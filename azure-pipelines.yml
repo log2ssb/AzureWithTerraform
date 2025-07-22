@@ -109,16 +109,16 @@ stages:
                    terraform init -backend-config="storage_account_name=$(storageAccountName)" -backend-config="container_name=$(containerName)" -backend-config="key=$(key)"
                  displayName: Terraform Init
 
-               - script: |
-                   cd $(System.DefaultWorkingDirectory)/terraform_scripts/
-                   terraform plan -out=tfplan
-                 displayName: Terraform Plan
-               
               #  - script: |
               #      cd $(System.DefaultWorkingDirectory)/terraform_scripts/
-              #      terraform apply -auto-approve tfplan
-              #    displayName: Terraform apply
-              #    condition: succeeded()
+              #      terraform plan -var "client_secret=$(client_secret) -out=tfplan
+              #    displayName: Terraform Plan
+               
+               - script: |
+                   cd $(System.DefaultWorkingDirectory)/terraform_scripts/
+                   terraform apply -var "client_secret=$(client_secret) -auto-approve tfplan
+                 displayName: Terraform apply
+                 condition: succeeded()
                  
               #  - task: TerraformTask@5
               #    displayName: Initialize the terraform
@@ -166,7 +166,7 @@ stages:
 
                 - script: |
                    cd $(System.DefaultWorkingDirectory)/terraform_scripts/
-                   terraform apply -auto-approve
+                   terraform destroy -var "client_secret=$(client_secret) -auto-approve
                   displayName: Terraform destroy
                   condition: succeeded()
 
