@@ -45,6 +45,12 @@ stages:
             commandOptions: '-var "client_secret=$(client_secret)" -out=tfplan'
             environmentServiceNameAzureRM: 'AzureResourceManager'
 
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: '$(System.DefaultWorkingDirectory)/terraform_scripts'
+            ArtifactName: 'drop'
+            publishLocation: 'Container'
+
   # - stage: Apply1
   #   displayName: "Deploy Infrastructure"
   #   dependsOn: Plan
