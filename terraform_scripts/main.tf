@@ -74,10 +74,9 @@ resource "azurerm_linux_web_app" "webapp" {
   site_config {
     always_on = var.webapp_always_on
     application_stack {
-      python_version = var.webapp_python_version
+      node_version = var.webapp_NodeJS_version
     }
   }
-
   app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE" = var.webapp_package_setting
   }

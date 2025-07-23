@@ -1,1 +1,31 @@
 .terraform/
+tfplan
+.terraform*
+terraform.*
+terraform_scripts/.terraform*
+**/.terraform*
+.terraform.lock.hcl
+*.tfplan
+terraform_scripts/.terraform.lock.hcl
+
+
+# Terraform files
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
+*.tfplan
+crash.log
+terraform.tfvars
+*.tfvars
+*.backup
+override.tf
+*.tf.override
+*.auto.tfvars
+
+# Local environment files
+.env
+*.local
+
+# Sensitive files (optional, if used)
+secrets.tf
+credentials.tfrc.json

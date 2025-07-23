@@ -14,7 +14,6 @@ variable "client_id" {
 variable "client_secret" {
   type = string
 }
-
 variable "tfstate_resource_group_name" {
   description = "Name of the resource group for Terraform state"
   type        = string
@@ -43,7 +42,7 @@ variable "tfstate_key" {
 variable "location" {
   description = "Azure region for resources"
   type        = string
-  default     = "eastus"
+  default     = "centralindia"
 }
 
 variable "storage_account_tier" {
@@ -86,7 +85,7 @@ variable "app_service_plan_name" {
 variable "app_service_plan_sku" {
   description = "SKU for the App Service Plan"
   type        = string
-  default     = "B1"
+  default     = "F1"
 }
 
 variable "app_service_plan_os" {
@@ -104,13 +103,13 @@ variable "webapp_name_prefix" {
 variable "webapp_always_on" {
   description = "Always On setting for the Web App"
   type        = bool
-  default     = true
+  default     = false
 }
 
-variable "webapp_python_version" {
-  description = "Python version for the Web App"
+variable "webapp_NodeJS_version" {
+  description = "NodeJS version for the Web App"
   type        = string
-  default     = "3.9"
+  default     = "20-lts"
 }
 
 variable "webapp_package_setting" {
