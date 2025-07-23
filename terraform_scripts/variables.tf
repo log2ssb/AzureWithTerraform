@@ -109,7 +109,7 @@ variable "webapp_always_on" {
 variable "webapp_NodeJS_version" {
   description = "NodeJS version for the Web App"
   type        = string
-  default     = "20-lts"
+  default     = "16-lts"
 }
 
 variable "webapp_package_setting" {
